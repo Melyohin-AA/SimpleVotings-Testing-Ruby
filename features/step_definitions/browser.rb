@@ -10,7 +10,6 @@ class Browser
     @@driver = value
   end
 
-
   def self.open()
     Selenium::WebDriver::Chrome::Service.driver_path = "drivers/chromedriver.exe"
     options = Selenium::WebDriver::Chrome::Options.new
@@ -36,7 +35,8 @@ class Browser
     @@driver.switch_to.window @@tab_hs.pop
   end
 
-  def self.clean()
+  def self.reset()
+    @@tab_hs.clear
     @@driver.manage.delete_all_cookies
     main_window_h = @@driver.window_handle
     for window_h in @@driver.window_handles
@@ -59,5 +59,5 @@ AfterAll do
 end
 
 Before do
-  Browser.clean
+  Browser.reset
 end

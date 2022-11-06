@@ -1,7 +1,6 @@
 class Pages
   @@server_address = "http://127.0.0.1:8000"
 
-
   def self.get_api_page_address(cmd_name)
     return @@server_address + "/testing_api/?cmd=" + cmd_name
   end
@@ -11,7 +10,10 @@ class Pages
   def self.get_login_page_address()
     return @@server_address + "/login/"
   end
-  def self.get_registration_page_address()
+  def self.get_registration_page_address(test)
+    if test
+      return @@server_address + "/registration/?test"
+    end
     return @@server_address + "/registration/"
   end
   def self.get_my_profile_page_address()
@@ -30,7 +32,7 @@ Given(/^login page is opened$/) do
   Browser._driver.get Pages.get_login_page_address
 end
 Given(/^registration page is opened$/) do
-  Browser._driver.get Pages.get_registration_page_address
+  Browser._driver.get Pages.get_registration_page_address(true)
 end
 Given(/^my_profile page is opened$/) do
   Browser._driver.get Pages.get_my_profile_page_address
@@ -53,5 +55,6 @@ Then(/^I verify login page is loaded$/) do
   raise "AE" unless Browser._driver.current_url == Pages.get_login_page_address
 end
 Then(/^I verify registration page is loaded$/) do
-  raise "AE" unless Browser._driver.current_url == Pages.get_registration_page_address
+  raise "AE" unless (Browser._driver.current_url == Pages.get_registration_page_address(false)) or
+      (Browser._driver.current_url == Pages.get_registration_page_address(true))
 end

@@ -12,7 +12,9 @@ class Authentication
   def self._authenticated()
     return @@authenticated
   end
-
+  def self.__authenticated(value)
+    @@authenticated = value
+  end
 
   def self.log_in(login, password)
     Browser._driver.get Pages.get_login_page_address
@@ -37,6 +39,10 @@ class Authentication
   end
 end
 
+
+Before do
+  Authentication.__authenticated(false)
+end
 
 Given(/^logged in as "([^"]*)":"([^"]*)"$/) do |login, password|
   Authentication.log_in(login, password)

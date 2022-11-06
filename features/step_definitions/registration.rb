@@ -16,7 +16,6 @@ class Registration
     @@to_delete = value
   end
 
-
   def self.generate_unique_login(min_length, max_length, ch_min, ch_max)
     Browser.new_tab
     rnd = Random.new
@@ -28,7 +27,7 @@ class Registration
       end
       login = sb.string
       status = ApiCommand.has_user(login).execute
-      if status != 200
+      if status != 242
         break
       end
     end
